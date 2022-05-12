@@ -49,3 +49,5 @@ if __name__ == '__main__':
         pickle.dump(valid_data, f, pickle.HIGHEST_PROTOCOL)
     with open('test_data' + '.pkl', 'wb') as f:
         pickle.dump(test_data, f, pickle.HIGHEST_PROTOCOL)
+    with open('class_reference' + '.pkl', 'wb') as f:
+        pickle.dump(label_reference, f, pickle.HIGHEST_PROTOCOL)
