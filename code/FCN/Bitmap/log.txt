@@ -1,0 +1,1 @@
+2022-05-19_09:19:390validation acc:tensor(0.1201)
