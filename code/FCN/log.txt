@@ -1,0 +1,22 @@
+2022-05-18_00:56:33Epoch:0Validation Accuracy:0.095248
+2022-05-18_02:04:56Epoch:1Validation Accuracy:0.123072
+2022-05-18_03:13:13Epoch:2Validation Accuracy:0.148096
+2022-05-18_04:21:18Epoch:3Validation Accuracy:0.175568
+2022-05-18_05:29:07Epoch:4Validation Accuracy:0.19608
+2022-05-18_06:35:24Epoch:5Validation Accuracy:0.219072
+2022-05-18_07:43:45Epoch:6Validation Accuracy:0.234864
+2022-05-18_08:52:50Epoch:7Validation Accuracy:0.248896
+2022-05-18_10:02:03Epoch:8Validation Accuracy:0.26088
+2022-05-18_11:10:55Epoch:9Validation Accuracy:0.271232
+2022-05-18_12:20:23Epoch:10Validation Accuracy:0.28112
+2022-05-18_13:30:27Epoch:11Validation Accuracy:0.291568
+2022-05-18_14:39:25Epoch:12Validation Accuracy:0.301104
+2022-05-18_15:48:48Epoch:13Validation Accuracy:0.31184
+2022-05-18_16:57:17Epoch:14Validation Accuracy:0.319744
+2022-05-18_18:06:13Epoch:15Validation Accuracy:0.323152
+2022-05-18_19:15:05Epoch:16Validation Accuracy:0.32896
+2022-05-18_20:23:52Epoch:17Validation Accuracy:0.334768
+2022-05-18_21:32:10Epoch:18Validation Accuracy:0.340848
+2022-05-18_22:42:45Epoch:19Validation Accuracy:0.346032
+
+Test Accuracy:  0.342704
