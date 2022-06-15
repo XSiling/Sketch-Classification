@@ -1,4 +1,4 @@
-import models.resnet
+import resnet
 import numpy as np
 import os
 import random
@@ -22,10 +22,8 @@ from tqdm import tqdm
 import warnings
 warnings.filterwarnings("ignore")
 
-
-
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_path', type=str, default='./dataset/')
+parser.add_argument('--data_path', type=str, default='../../data/')
 parser.add_argument('--epoch', type=int, default=30)
 parser.add_argument('--lr', type=float, default=1e-4)
 parser.add_argument('--valid_interval', type=int, default=130000)
@@ -34,6 +32,8 @@ parser.add_argument('--save_path', type=str, default='model.pth')
 parser.add_argument('--batch_size', type=int, default=4096)
 parser.add_argument('--log_file', type=str, default='log.txt')
 parser.add_argument('--loss_file', type=str, default='loss.txt')
+parser.add_argument('--method',type=str, default='ResNet')
+parser.add_argument('--pre_model', type=str, default=None)
 args = parser.parse_args()
 DEVICE = torch.device('cuda:{}'.format(args.cuda)) if torch.cuda.is_available() else torch.device('cpu')
 
@@ -80,11 +80,27 @@ def train(model, opt, train_loader, valid_loader):
                 sum += pred_class.shape[0]
                 torch.cuda.empty_cache()
             acc = n_correct/sum
-            with open('log.txt', 'a') as fp:
-                fp.write(datetime.datetime.today().strftime('%Y-%m-%d_%H:%M:%S') + str(epoch) + "validation acc:" + str(acc)) + "\n"
+            with open(args.method + 'log.txt', 'a') as fp:
+                fp.write(datetime.datetime.today().strftime('%Y-%m-%d_%H:%M:%S') + str(epoch) + "validation acc:" + str(acc) + "\n")
             if acc > best_acc:
                 best_acc = acc
-                torch.save(model.state_dict(), 'best_model'+str(epoch)+'.pth')
+                torch.save(model.state_dict(), args.method + 'best_model'+str(epoch)+'.pth')
+
+def test(model, test_loader):
+    with torch.no_grad():
+        n_correct = 0
+        sum = 0
+        for _, (input, label) in enumerate(valid_loader):
+            input = input.to(DEVICE)
+            label = label.to(DEVICE)
+            pred = model(input)
+            pred_class = pred.argmax(1)
+            correct_num = (pred_class == label).sum()
+            n_correct += correct_num
+            sum += pred_class.shape[0]
+        acc = n_correct/sum
+        print("test accuracy:", acc)
+
 
 if __name__ == '__main__':
     train_data, valid_data, test_data = load_data(args.data_path)
@@ -108,8 +124,11 @@ if __name__ == '__main__':
     test_set = TensorDataset(test_X, test_Y)
     test_loader = DataLoader(dataset=test_set, batch_size=args.batch_size, shuffle=False)
 
-    model = models.resnet.ResNet_18().to(DEVICE)
+    if args.method == 'ResNet':
+        model = resnet.ResNet_18().to(DEVICE)
 
-
+    if args.pre_model != None:
+        model.load_state_dict(torch.load(args.pre_model))
     opt = optim.Adam(model.parameters(), lr=args.lr)
     train(model, opt, train_loader, valid_loader)
+    test(model, test_loader)
